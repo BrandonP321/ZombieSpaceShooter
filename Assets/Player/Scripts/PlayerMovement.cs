@@ -1,76 +1,90 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float moveSpeed = 5f;
-    public float acceleration = 9f;
-    public float deceleration = 9f;
-    public float jumpForce = 3f;
+    private PlayerGroundMovement playerGroundMovement;
+    private PlayerThrusterMovement playerThrusterMovement;
 
-    private Rigidbody rb;
-    private Vector2 moveInput;
-    private Vector3 moveVelocity;
-    private Vector3 currentVelocity;
+    Rigidbody rb;
+    bool inZeroGravity = false;
 
-    private void Start()
+    void Start()
     {
+        playerGroundMovement = GetComponent<PlayerGroundMovement>();
+        playerThrusterMovement = GetComponent<PlayerThrusterMovement>();
         rb = GetComponent<Rigidbody>();
     }
 
-    private void OnMove(InputAction.CallbackContext context)
+    public void OnMove(InputAction.CallbackContext context)
     {
-        moveInput = context.ReadValue<Vector2>();
+        if (inZeroGravity)
+        {
+            playerThrusterMovement.OnMove(context.ReadValue<Vector2>());
+        }
+        else
+        {
+            playerGroundMovement.OnMove(context.ReadValue<Vector2>());
+        }
     }
 
-    private void OnJump(InputAction.CallbackContext context)
+    public void OnJump(InputAction.CallbackContext context)
     {
-        // Check if player is grounded and jump was pressed, not let go
-        if (context.started && IsGrounded())
+        if (inZeroGravity)
         {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            playerThrusterMovement.OnThrustUp(context);
+        }
+        else
+        {
+            playerGroundMovement.OnJump(context);
+        }
+    }
+
+    public void OnThrustDown(InputAction.CallbackContext context)
+    {
+        if (inZeroGravity)
+        {
+            playerThrusterMovement.OnThrustDown(context);
         }
     }
 
     private void FixedUpdate()
     {
-        if (IsGrounded())
+        if (inZeroGravity)
         {
-            MovePlayer();
+            playerThrusterMovement.ApplyThrusterMovement();
+        }
+        else
+        {
+            playerGroundMovement.ApplyGroundMovement();
         }
     }
 
-    private void MovePlayer()
+    // Trigger to enter zero-gravity mode
+    public void EnterZeroGravity()
     {
-        // Use player's local direction (forward and right) to calculate movement
-        Vector3 forwardMovement = transform.forward * moveInput.y;
-        Vector3 rightMovement = transform.right * moveInput.x;
+        inZeroGravity = true;
+        rb.useGravity = false;
+        playerGroundMovement.DisableGroundMovement();
 
-        moveVelocity = forwardMovement + rightMovement;
-
-        // Normalize the movement vector so that the player moves at the same speed in all directions
-        if (moveVelocity.magnitude > 1)
-        {
-            moveVelocity.Normalize();
-        }
-
-        // Multiply the movement vector by the move speed
-        moveVelocity *= moveSpeed;
-
-        Vector3 targetVelocity = moveVelocity;
-        currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, (moveVelocity.magnitude > 0 ? acceleration : deceleration) * Time.fixedDeltaTime);
-        
-        // Maintain vertical velocity (Y) from physics engine for jumping and falling
-        currentVelocity.y = rb.velocity.y;
-
-        // Apply movement to the rigidbody
-        rb.velocity = currentVelocity;
+        InputAction moveAction = GetComponent<PlayerInput>().actions["Move"];
+        playerThrusterMovement.OnMove(moveAction.ReadValue<Vector2>());
     }
 
-    bool IsGrounded()
+    // Trigger to exit zero-gravity mode and return to normal ground movement
+    public void ExitZeroGravity()
+    {
+        inZeroGravity = false;
+        rb.useGravity = true;
+        playerThrusterMovement.DisableThrust();
+
+        InputAction moveAction = GetComponent<PlayerInput>().actions["Move"];
+        playerGroundMovement.OnMove(moveAction.ReadValue<Vector2>());
+    }
+
+    public bool IsGrounded()
     {
         // Raycast to check if the player is grounded
         return Physics.Raycast(transform.position, Vector3.down, 1.1f);
