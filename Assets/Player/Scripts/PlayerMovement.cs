@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce = 3f;
 
     private Rigidbody rb;
+    private Vector2 moveInput;
     private Vector3 moveVelocity;
     private Vector3 currentVelocity;
 
@@ -22,17 +23,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnMove(InputAction.CallbackContext context)
     {
-        Vector2 input = context.ReadValue<Vector2>();
-        moveVelocity = new Vector3(input.x, 0, input.y);
-
-        // Normalize the movement vector so that the player moves at the same speed in all directions
-        if (moveVelocity.magnitude > 1)
-        {
-            moveVelocity.Normalize();
-        }
-
-        // Multiply the movement vector by the move speed
-        moveVelocity *= moveSpeed;
+        moveInput = context.ReadValue<Vector2>();
     }
 
     private void OnJump(InputAction.CallbackContext context)
@@ -54,6 +45,21 @@ public class PlayerMovement : MonoBehaviour
 
     private void MovePlayer()
     {
+        // Use player's local direction (forward and right) to calculate movement
+        Vector3 forwardMovement = transform.forward * moveInput.y;
+        Vector3 rightMovement = transform.right * moveInput.x;
+
+        moveVelocity = forwardMovement + rightMovement;
+
+        // Normalize the movement vector so that the player moves at the same speed in all directions
+        if (moveVelocity.magnitude > 1)
+        {
+            moveVelocity.Normalize();
+        }
+
+        // Multiply the movement vector by the move speed
+        moveVelocity *= moveSpeed;
+
         Vector3 targetVelocity = moveVelocity;
         currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, (moveVelocity.magnitude > 0 ? acceleration : deceleration) * Time.fixedDeltaTime);
         
