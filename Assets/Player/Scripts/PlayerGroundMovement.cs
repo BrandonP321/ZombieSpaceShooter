@@ -30,11 +30,9 @@ public class PlayerGroundMovement : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        Debug.Log("Jump" + context.started + "; " + playerMovement.IsGrounded());
         // Check if player is grounded and jump was pressed, not let go
         if (context.performed && playerMovement.IsGrounded())
         {
-            Debug.Log("Add Jump Force");
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
     }
