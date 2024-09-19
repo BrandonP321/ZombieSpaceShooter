@@ -21,7 +21,6 @@ public class Projectile : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Hit: " + collision.gameObject.name);
         Destroy(gameObject);
     }
 }
