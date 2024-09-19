@@ -10,7 +10,7 @@ public class PlayerGroundMovement : MonoBehaviour
     public float moveSpeed = 8f;
     public float acceleration = 9f;
     public float deceleration = 9f;
-    public float jumpForce = 7f;
+    public float jumpForce = 1500f;
 
     private Rigidbody rb;
     private PlayerMovement playerMovement;
@@ -31,7 +31,7 @@ public class PlayerGroundMovement : MonoBehaviour
     public void OnJump(InputAction.CallbackContext context)
     {
         // Check if player is grounded and jump was pressed, not let go
-        if (context.started && playerMovement.IsGrounded())
+        if (context.performed && playerMovement.IsGrounded())
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
