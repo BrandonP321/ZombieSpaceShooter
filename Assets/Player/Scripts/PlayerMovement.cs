@@ -56,7 +56,7 @@ public class PlayerMovement : MonoBehaviour
         {
             playerThrusterMovement.ApplyThrusterMovement();
         }
-        else
+        else if (IsGrounded())
         {
             playerGroundMovement.ApplyGroundMovement();
         }
