@@ -6,6 +6,7 @@ using UnityEngine.Windows;
 public class FirstPersonCamera: MonoBehaviour
 {
     public Transform playerBody;
+    public PlayerMovement playerMovement;
     public float mouseSensitivity = 10f;
     public float gamepadSensitivity = 125;
 
@@ -40,10 +41,18 @@ public class FirstPersonCamera: MonoBehaviour
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-        // Apply rotation to camera
-        transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        if (!playerMovement.inZeroGravity)
+        {
+            // Apply rotation to camera
+            transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
 
-        // Rotate the player body around the Y axis
-        playerBody.Rotate(Vector3.up * mouseX);
+            // Rotate the player body around the Y axis
+            playerBody.Rotate(Vector3.up * mouseX);
+        } else
+        {
+            // Only rotate the player body around both axes
+            playerBody.Rotate(Vector3.up * mouseX);
+            playerBody.Rotate(Vector3.right * -mouseY);
+        }
     }
 }

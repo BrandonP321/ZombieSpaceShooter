@@ -7,7 +7,7 @@ using TMPro;
 public class WeaponManager : MonoBehaviour
 {
     public Weapon weapon;
-    public TextMeshProUGUI ammoText;
+    private TextMeshProUGUI ammoText;
 
     private void Start()
     {
