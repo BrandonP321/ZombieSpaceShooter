@@ -90,7 +90,7 @@ public class PlayerThrusterMovement : MonoBehaviour
             rb.AddForce(thrusterDirection.normalized * thrusterForce, ForceMode.Acceleration);
 
             // Apply rotation thrust
-            rb.AddTorque(transform.forward * (rightRotationThrust - leftRotationThrust) * thrusterForce, ForceMode.Acceleration);
+            rb.AddTorque(transform.forward * -(rightRotationThrust - leftRotationThrust) * thrusterForce, ForceMode.Acceleration);
 
             // Deplete thruster energy
             thrusterEnergy -= thrusterConsumptionRate * Time.deltaTime;
