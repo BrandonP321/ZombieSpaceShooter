@@ -10,6 +10,7 @@ public class PlayerThrusterMovement : MonoBehaviour
     public float thrusterEnergyMax = 100f;
     public float thrusterRechargeRate = 10f;
     public float thrusterConsumptionRate = 10f;
+    public float rotationSpeed = 40f;
     public TextMeshPro thrusterEnergyText;
 
     private Rigidbody rb;
@@ -89,8 +90,12 @@ public class PlayerThrusterMovement : MonoBehaviour
             // Apply thruster force
             rb.AddForce(thrusterDirection.normalized * thrusterForce, ForceMode.Acceleration);
 
-            // Apply rotation thrust
-            rb.AddTorque(transform.forward * -(rightRotationThrust - leftRotationThrust) * thrusterForce, ForceMode.Acceleration);
+            // Apply continuous rotation based on the left and right thrusts
+            float rotationThrust = (rightRotationThrust - leftRotationThrust) * -rotationSpeed;
+            if (rotationThrust != 0)
+            {
+                transform.Rotate(Vector3.forward * rotationThrust * Time.deltaTime);
+            }
 
             // Deplete thruster energy
             thrusterEnergy -= thrusterConsumptionRate * Time.deltaTime;

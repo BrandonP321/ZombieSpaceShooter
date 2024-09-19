@@ -177,7 +177,7 @@ Rigidbody:
   m_GameObject: {fileID: 4063143549375480616}
   serializedVersion: 4
   m_Mass: 400
-  m_Drag: 0
+  m_Drag: 0.75
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -208,6 +208,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inZeroGravity: 0
+  smoothRotationDuration: 0.5
+  isRotatingToUpright: 0
+  cameraTransform: {fileID: 3214693197262653905}
 --- !u!114 &6578252655956771285
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,6 +243,8 @@ MonoBehaviour:
   thrusterEnergyMax: 100
   thrusterRechargeRate: 10
   thrusterConsumptionRate: 10
+  rotationSpeed: 67.83
+  thrusterEnergyText: {fileID: 0}
 --- !u!114 &5244535520364800481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -403,7 +408,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weapon: {fileID: 7102485212281835687}
-  ammoText: {fileID: 0}
 --- !u!1 &4423941910974077926
 GameObject:
   m_ObjectHideFlags: 0
