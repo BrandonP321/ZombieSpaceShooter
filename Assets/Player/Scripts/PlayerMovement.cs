@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
     private PlayerThrusterMovement playerThrusterMovement;
 
     Rigidbody rb;
-    bool inZeroGravity = false;
+    public bool inZeroGravity = false;
 
     void Start()
     {

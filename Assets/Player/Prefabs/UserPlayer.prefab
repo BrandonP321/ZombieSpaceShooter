@@ -93,7 +93,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3214693197262653905}
-  - {fileID: 8905775290838220451}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4108065422306339063
@@ -208,6 +207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcefbba9495515f49bf6aecf7c693682, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inZeroGravity: 0
 --- !u!114 &6578252655956771285
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -353,6 +353,38 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 176bad28-80f1-4dd4-9be1-bf4cfed5d9f5
     m_ActionName: Player/New action
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1630235401222557013}
+        m_TargetAssemblyTypeName: PlayerThrusterMovement, Assembly-CSharp
+        m_MethodName: OnThrustRotateLeft
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: e261418e-112e-4f7d-b09f-2a023c2741a2
+    m_ActionName: Player/ThrustRotateLeft[/Keyboard/q]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1630235401222557013}
+        m_TargetAssemblyTypeName: PlayerThrusterMovement, Assembly-CSharp
+        m_MethodName: OnThrustRotateRight
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: dae8b78e-2a5a-43b4-8e0f-ae0474448809
+    m_ActionName: Player/ThrustRotateRight[/Keyboard/e]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -397,12 +429,12 @@ Transform:
   m_GameObject: {fileID: 4423941910974077926}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.812, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7318989424890447341}
-  m_Father: {fileID: 8394277677220813883}
+  m_Father: {fileID: 3214693197262653905}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7194557601425786302
 GameObject:
@@ -436,7 +468,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0.812, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 8905775290838220451}
   m_Father: {fileID: 8394277677220813883}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &7417117831762027464
@@ -511,6 +544,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerBody: {fileID: 8394277677220813883}
+  playerMovement: {fileID: 0}
   mouseSensitivity: 10
   gamepadSensitivity: 125
 --- !u!114 &179285842786554361
