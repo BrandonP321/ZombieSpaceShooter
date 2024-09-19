@@ -19,14 +19,9 @@ public class Projectile : MonoBehaviour
         rb.velocity = transform.forward * speed;
     }
 
-    //private void Update()
-    //{
-    //    transform.Translate(Vector3.forward * speed * Time.deltaTime);
-    //}
-
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Hit: " + other.name);
+        Debug.Log("Hit: " + collision.gameObject.name);
         Destroy(gameObject);
     }
 }

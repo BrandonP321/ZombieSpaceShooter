@@ -6,6 +6,7 @@ public class ZeroGravityZone : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
+
         if (other.CompareTag("Player"))
         {
             PlayerMovement playerMovement = other.GetComponent<PlayerMovement>();
@@ -13,6 +14,10 @@ public class ZeroGravityZone : MonoBehaviour
             {
                 playerMovement.EnterZeroGravity();
             }
+        }
+        else if (other.GetComponent<Rigidbody>() != null)
+        {
+            other.GetComponent<Rigidbody>().useGravity = false;
         }
     }
 
