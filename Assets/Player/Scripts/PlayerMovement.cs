@@ -16,12 +16,25 @@ public class PlayerMovement : MonoBehaviour
     private Quaternion targetUprightRotation;
 
     public Transform cameraTransform;
+    public GameObject playerUIPrefab;
+    public GameObject InGameMenuUIPrefab;
+    public InGameMenu inGameMenu;
 
     void Start()
     {
         playerGroundMovement = GetComponent<PlayerGroundMovement>();
         playerThrusterMovement = GetComponent<PlayerThrusterMovement>();
         rb = GetComponent<Rigidbody>();
+        Instantiate(playerUIPrefab);
+        inGameMenu = Instantiate(InGameMenuUIPrefab).GetComponent<InGameMenu>();
+    }
+
+    public void OnToggleInGameMenu(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            inGameMenu.ToggleMenu();
+        }
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -58,13 +71,16 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (inZeroGravity)
+        if (!inGameMenu.isVisible)
         {
-            playerThrusterMovement.ApplyThrusterMovement();
-        }
-        else if (IsGrounded())
-        {
-            playerGroundMovement.ApplyGroundMovement();
+            if (inZeroGravity)
+            {
+                playerThrusterMovement.ApplyThrusterMovement();
+            }
+            else if (IsGrounded())
+            {
+                playerGroundMovement.ApplyGroundMovement();
+            }
         }
 
         if (isRotatingToUpright)

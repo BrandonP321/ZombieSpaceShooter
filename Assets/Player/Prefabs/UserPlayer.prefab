@@ -54,6 +54,7 @@ MonoBehaviour:
   projectileSpeed: 0
   gunBarrel: {fileID: 822138344247338468}
   projectilePrefab: {fileID: 6703205325063370599, guid: 55818b406eafddd479752759ce249aa3, type: 3}
+  playerMovement: {fileID: 401454904799277394}
 --- !u!1 &4063143549375480616
 GameObject:
   m_ObjectHideFlags: 0
@@ -211,6 +212,9 @@ MonoBehaviour:
   smoothRotationDuration: 0.5
   isRotatingToUpright: 0
   cameraTransform: {fileID: 3214693197262653905}
+  playerUIPrefab: {fileID: 1294769384985538295, guid: 955c868317cffd84fb704c740e14dc52, type: 3}
+  InGameMenuUIPrefab: {fileID: 1948075433451762472, guid: ca37d76eb97133d4d851680a9e68b6f9, type: 3}
+  inGameMenu: {fileID: 0}
 --- !u!114 &6578252655956771285
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -390,6 +394,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: dae8b78e-2a5a-43b4-8e0f-ae0474448809
     m_ActionName: Player/ThrustRotateRight[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 401454904799277394}
+        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
+        m_MethodName: OnToggleInGameMenu
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: a43a671e-0c10-4c92-b34c-6e8274e5c515
+    m_ActionName: Player/ToggleInGameMenu[/Keyboard/escape,/XInputControllerWindows/start]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

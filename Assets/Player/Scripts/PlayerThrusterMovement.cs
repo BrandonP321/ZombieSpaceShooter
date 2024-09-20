@@ -21,12 +21,16 @@ public class PlayerThrusterMovement : MonoBehaviour
     private float rightRotationThrust;
     private float thrusterEnergy;
 
+    public delegate void OnThrustEnergyChanged(float currentEnergy);
+    public static event OnThrustEnergyChanged ThrustEnergyChanged;
+
     // Start is called before the first frame update
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         playerMovement = GetComponent<PlayerMovement>();
         thrusterEnergy = thrusterEnergyMax;
+        UpdateThrustUI();
     }
 
     public void OnMove(Vector2 input)
@@ -119,6 +123,6 @@ public class PlayerThrusterMovement : MonoBehaviour
 
     public void UpdateThrustUI()
     {
-        thrusterEnergyText.text = thrusterEnergy + "%";
+        ThrustEnergyChanged?.Invoke(thrusterEnergy);
     }
 }
