@@ -230,7 +230,7 @@ MonoBehaviour:
   moveSpeed: 8
   acceleration: 9
   deceleration: 9
-  jumpForce: 7
+  jumpForce: 1500
 --- !u!114 &1630235401222557013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -243,10 +243,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d5dbee425b384b49ba5016b8f4ef477, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thrusterForce: 10
+  thrusterForce: 5
   thrusterEnergyMax: 100
-  thrusterRechargeRate: 10
-  thrusterConsumptionRate: 10
+  thrusterRechargeRate: 50
+  thrusterConsumptionRate: 15
   rotationSpeed: 67.83
   thrusterEnergyText: {fileID: 0}
 --- !u!114 &5244535520364800481
@@ -568,7 +568,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerBody: {fileID: 8394277677220813883}
-  playerMovement: {fileID: 0}
+  playerMovement: {fileID: 401454904799277394}
   mouseSensitivity: 10
   gamepadSensitivity: 125
 --- !u!114 &179285842786554361
@@ -636,6 +636,18 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 176bad28-80f1-4dd4-9be1-bf4cfed5d9f5
     m_ActionName: Player/SwitchWeapon[/XInputControllerWindows/buttonNorth,/Keyboard/1,/Keyboard/2]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e261418e-112e-4f7d-b09f-2a023c2741a2
+    m_ActionName: Player/ThrustRotateLeft[/Keyboard/q,/XInputControllerWindows/leftShoulder]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: dae8b78e-2a5a-43b4-8e0f-ae0474448809
+    m_ActionName: Player/ThrustRotateRight[/Keyboard/e,/XInputControllerWindows/rightShoulder]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a43a671e-0c10-4c92-b34c-6e8274e5c515
+    m_ActionName: Player/ToggleInGameMenu[/Keyboard/escape,/XInputControllerWindows/start]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

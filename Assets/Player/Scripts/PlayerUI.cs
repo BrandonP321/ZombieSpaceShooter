@@ -24,8 +24,9 @@ public class PlayerUI : MonoBehaviour
         ammoText.text = currentAmmo + " / " + maxAmmo;
     }
 
-    private void UpdateThrusterUI(float currentEnergy)
+    private void UpdateThrusterUI(float currentEnergy, bool isDisabled)
     {
-        thrusterText.text = currentEnergy + "%";
+        thrusterText.text = Mathf.RoundToInt(currentEnergy) + "%";
+        thrusterText.color = isDisabled ? Color.red : Color.white;
     }
 }

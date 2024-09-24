@@ -6,11 +6,13 @@ using UnityEngine.InputSystem;
 
 public class PlayerThrusterMovement : MonoBehaviour
 {
-    public float thrusterForce = 10f;
+    public float thrusterForce = 5f;
     public float thrusterEnergyMax = 100f;
-    public float thrusterRechargeRate = 10f;
-    public float thrusterConsumptionRate = 10f;
+    public float thrusterRechargeRate = 50f;
+    private float thrusterRechargeDelaySec = 1f;
+    public float thrusterConsumptionRate = 15f;
     public float rotationSpeed = 40f;
+    public float thrusterMinForMovement = 15f;
     public TextMeshPro thrusterEnergyText;
 
     private Rigidbody rb;
@@ -20,8 +22,10 @@ public class PlayerThrusterMovement : MonoBehaviour
     private float leftRotationThrust;
     private float rightRotationThrust;
     private float thrusterEnergy;
+    private bool isThrusterActive = false;
+    private float lastThrusterDeactivatedTime;
 
-    public delegate void OnThrustEnergyChanged(float currentEnergy);
+    public delegate void OnThrustEnergyChanged(float currentEnergy, bool isDisabled);
     public static event OnThrustEnergyChanged ThrustEnergyChanged;
 
     // Start is called before the first frame update
@@ -86,8 +90,12 @@ public class PlayerThrusterMovement : MonoBehaviour
 
     public void ApplyThrusterMovement()
     {
-        if (thrusterEnergy > 0)
+        bool isThrusterInput = movementInput != Vector3.zero || verticalThrust != 0 || leftRotationThrust != 0 || rightRotationThrust != 0;
+        if (thrusterEnergy > 0 && isThrusterInput)
         {
+            isThrusterActive = true;
+            lastThrusterDeactivatedTime = 0;
+
             Vector3 thrusterDirection = transform.right * movementInput.x + transform.forward * movementInput.z;
             thrusterDirection += transform.up * verticalThrust;  // Add vertical thrust
 
@@ -102,17 +110,29 @@ public class PlayerThrusterMovement : MonoBehaviour
             }
 
             // Deplete thruster energy
-            thrusterEnergy -= thrusterConsumptionRate * Time.deltaTime;
-        }
-        
-
-        // Recharge thruster energy over time
-        if (thrusterEnergy < thrusterEnergyMax)
+            UpdateThrusterEngery(-thrusterConsumptionRate * Time.deltaTime);
+        } else if (lastThrusterDeactivatedTime == 0)
         {
-            thrusterEnergy += thrusterRechargeRate * Time.deltaTime;
+            isThrusterActive = false;
+            lastThrusterDeactivatedTime = Time.time;
         }
 
         UpdateThrustUI();
+    }
+
+    private void Update()
+    {
+        // Recharge thruster energy over time
+        if (thrusterEnergy < thrusterEnergyMax && Time.time - lastThrusterDeactivatedTime > thrusterRechargeDelaySec && !isThrusterActive)
+        {
+            UpdateThrusterEngery(thrusterRechargeRate * Time.deltaTime);
+        }
+    }
+
+    private void UpdateThrusterEngery(float deltaEnergy)
+    {
+        thrusterEnergy += deltaEnergy;
+        thrusterEnergy = Mathf.Clamp(thrusterEnergy, 0, thrusterEnergyMax);
     }
 
     public void DisableThrust()
@@ -123,6 +143,7 @@ public class PlayerThrusterMovement : MonoBehaviour
 
     public void UpdateThrustUI()
     {
-        ThrustEnergyChanged?.Invoke(thrusterEnergy);
+        bool isThrusterDisabled = thrusterEnergy < thrusterMinForMovement && !isThrusterActive;
+        ThrustEnergyChanged?.Invoke(thrusterEnergy, isThrusterDisabled);
     }
 }
