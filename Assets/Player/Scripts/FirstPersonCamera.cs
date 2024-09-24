@@ -30,7 +30,10 @@ public class FirstPersonCamera: MonoBehaviour
 
     private void Update()
     {
-        ProcessLookInput();
+        if (!playerMovement.inGameMenu.isVisible)
+        {
+            ProcessLookInput();
+        }
     }
 
     private void ProcessLookInput()

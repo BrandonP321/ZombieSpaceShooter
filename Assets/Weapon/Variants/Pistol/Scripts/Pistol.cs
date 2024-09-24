@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class Pistol : Weapon
 {
+    public delegate void OnAmmoChanged(int currentAmmo, int maxAmmo);
+    public static event OnAmmoChanged AmmoChanged;
+
+    public PlayerMovement playerMovement;
+
     void Start()
     {
         weaponName = "Pistol";
@@ -13,16 +18,12 @@ public class Pistol : Weapon
         damage = 10f;
         range = 100f;
         projectileSpeed = 20f;
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        AmmoChanged?.Invoke(currentAmmo, ammoCapacity);
     }
 
     public override void Shoot() {
-        if (currentAmmo > 0 && canFire)
+        if (currentAmmo > 0 && canFire && !playerMovement.inGameMenu.isVisible)
         {
             GameObject projectile = Instantiate(projectilePrefab, gunBarrel.position, transform.rotation);
 
@@ -32,17 +33,10 @@ public class Pistol : Weapon
                 rb.velocity = transform.forward * projectileSpeed;
             }
 
-            //RaycastHit hit;
-            //Vector3 rayOrigin = transform.position;
-            //Vector3 rayDirection = transform.forward;
-
-            //if (Physics.Raycast(transform.position, transform.forward, out hit, range))
-            //{
-            //    Debug.Log("Hit: " + hit.transform.name);
-            //}
             currentAmmo--;
             canFire = false;
             Invoke("ResetShoot", fireRate);
+            AmmoChanged?.Invoke(currentAmmo, ammoCapacity);
         }
 
         if (currentAmmo <= 0)
@@ -53,6 +47,7 @@ public class Pistol : Weapon
 
     public override void Reload() {
         currentAmmo = ammoCapacity;
+        AmmoChanged?.Invoke(currentAmmo, ammoCapacity);
     }
 
     private void ResetShoot()

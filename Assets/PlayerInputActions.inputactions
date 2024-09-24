@@ -85,6 +85,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "ToggleInGameMenu",
+                    "type": "Button",
+                    "id": "a43a671e-0c10-4c92-b34c-6e8274e5c515",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -393,6 +402,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "ThrustRotateRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "de2aedcb-dc08-468a-a56b-3a56beb0cbd1",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleInGameMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6bbdafe0-27e6-41c7-8382-a9ddab58a733",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleInGameMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
